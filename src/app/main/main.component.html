@@ -1,0 +1,97 @@
+<!-- <app-header></app-header> -->
+
+<app-footer></app-footer>
+<div class="container app">
+    <div class="row">
+        <div class="col-sm-8"> 
+            <h1 class="text-center">
+            {{title}}
+            </h1>
+        </div>
+        <div class="col-sm-4">
+            <div class="alert alert-success alert-dismissable">
+                <a href="#" class="close" (click)="closeAlert()">
+                    &times;
+                </a>
+                {{message}}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <img width="300" src="../../assets/IMG02.png" />    
+        </div>
+        <div class="col-md-8">
+            <h2>Create Homework:</h2>  
+            <form class="form-horizontal" #f="ngForm" (ngSubmit)="submitForm(f)">
+                <div class="form-group">
+                    <div class="col-sm-12">
+                        <textarea matInput  #descriptionForm  class="form-control" id="description"
+                        name="description" [(ngModel)]="description"
+                        placeholder="Enter a description"
+                        class="form-control " resize="none " 
+                        cols="30 " maxlength="256 " rows="5 " required></textarea> 
+                        <mat-hint align="start"><strong>Don't disclose personal info</strong> </mat-hint>
+                        <mat-hint align="end">{{descriptionForm.value.length}} / 256</mat-hint>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <mat-form-field>
+                        <mat-label>Select an matery</mat-label>
+                            <mat-select [(ngModel)]="matery_id" id="matery_id" name="matery_id" (ngModelChange)="filterSearchTeachers($event)" required>
+                                <mat-option *ngFor="let __matery of _matery ;"  [value]="__matery._id">
+                                    {{__matery.matery}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-sm-6">
+                        <mat-form-field>
+                        <mat-label>Select an teacher</mat-label>
+                            <mat-select [(ngModel)]="teacher_id" id="teacher_id" name="teacher_id"  required>
+                                <mat-option *ngFor="let __teachers of _teachers ;"  [value]="__teachers._id">
+                                        {{__teachers.name}} {{__teachers.lastname}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    </div>     
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button [disabled]="f.invalid || isSubmittingForm" class="btn btn-danger btn-block"> <i *ngIf="isSubmittingForm" class="fa fa-spinner fa-spin" aria-hidden="true"></i>Send to homework</button>
+                        </div>
+                    </div>   
+            </form>
+        </div>
+        <div class="col-sm-8">
+            <h2>Read HomeWork: </h2>
+            <table class="table table-bordered">
+            <thead>
+                <tr>
+                <th>Description</th>
+                <th>Matery</th>
+                <th>Teacher</th>
+                <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let __listjobs of _listjobs; let i = index">
+                <td>{{__listjobs.description}}</td>
+                <td>{{__listjobs.matery.matery}}</td>
+                <td>{{__listjobs.teacher.name}} {{__listjobs.teacher.lastname}}</td>
+                <td>
+                    <!-- <a (click)="editHomework(__listjobs)" class="btn btn-success">
+                    Edit  
+                    </a> -->
+                    <a (click)="deleteHomework(__listjobs._id)" class="btn btn-danger">
+                    Delete
+                    </a>
+                </td>
+                </tr>
+            </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
